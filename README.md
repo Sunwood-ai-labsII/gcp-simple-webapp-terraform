@@ -1,59 +1,66 @@
-# 💖 GCP Simple Webapp with Terraform 💖
+# 🌐 GCP Simple Webapp with Terraform 🌐
 
-GCPのCloud Storageを使って、Terraformでサクッと静的サイトをデプロイするサンプルだよ！
-このリポジトリは、[gemini-actions-lab の Issue #66](https://github.com/Sunwood-ai-labsII/gemini-actions-lab/issues/66) をもとに、Geminiちゃんで自動生成されたんだよ✨ すごくな〜い？
+GCP の Cloud Storage を使って Terraform で静的サイトをデプロイするサンプルです。
+本リポジトリは [gemini-actions-lab の Issue #66](https://github.com/Sunwood-ai-labsII/gemini-actions-lab/issues/66) をもとに、Gemini で生成した内容を整理したものです。
 
 ## 🚀 使い方 (How to Use)
 
-### 準備するもの
+### 前提条件
 
-- Google Cloud SDK (`gcloud`) がインストールされてて、ログイン済みであること
-- Terraform がインストールされてること
-- GCPのプロジェクトがあること
+- Google Cloud SDK (`gcloud`) がインストールされており、ログイン済みであること
+- Terraform がインストールされていること
+- デプロイ先となる GCP プロジェクトを用意していること
 
 ### デプロイ手順
 
-1.  **まずこのリポジトリをクローンするっしょ！**
-    ```bash
-    git clone https://github.com/Sunwood-ai-labsII/gcp-simple-webapp-terraform.git
-    cd gcp-simple-webapp-terraform
-    ```
+1. **まずリポジトリをクローン**
+   ```bash
+   git clone https://github.com/Sunwood-ai-labsII/gcp-simple-webapp-terraform.git
+   cd gcp-simple-webapp-terraform
+   ```
 
-2.  **GCPプロジェクトの設定**
-    `terraform` ディレクトリに `terraform.tfvars` ってファイルを作って、自分のGCPプロジェクトIDを書き込むの！
-    ```tfvars
-    # terraform/terraform.tfvars
+2. **GCP プロジェクトの設定**
+   `terraform` ディレクトリの `terraform.tfvars` を作成して、使用する GCP プロジェクト情報を記入します。サンプルとして `terraform/terraform.tfvars.example` も用意しているので、コピーして編集してください。
+   ```tfvars
+   # terraform/terraform.tfvars
+   gcp_project_id = "your-gcp-project-id-here"
+   # 任意 (デフォルト us-central1)
+   gcp_region     = "us-central1"
+   ```
 
-    gcp_project_id = "your-gcp-project-id-here"
-    ```
+3. **gcloud で Application Default Credentials を設定**
+   Terraform の Google プロバイダーが使用する認証情報を取得します。
+   ```bash
+   gcloud auth application-default login
+   ```
 
-3.  **Terraformの初期化**
-    `terraform` ディレクトリに移動して、おまじないを唱える🙏
-    ```bash
-    cd terraform
-    terraform init
-    ```
+4. **Terraform の初期化**
+   `terraform` ディレクトリへ移動して初期化します。
+   ```bash
+   cd terraform
+   terraform init
+   ```
 
-4.  **Terraformプランを実行！**
-    どんなものが作られるか確認して、`yes` って入力すればデプロイ開始！
-    ```bash
-    terraform apply
-    ```
+5. **Terraform を実行**
+   設定内容を確認して問題なければ `yes` と入力します。
+   ```bash
+   terraform apply
+   ```
 
-5.  **サイトにアクセス！**
-    デプロイが終わったら、TerraformがサイトのURLを教えてくれるから、それにアクセスしてみてね！
+6. **サイトにアクセス**
+   デプロイが完了すると Terraform の出力に静的サイトの URL が表示されるので、ブラウザでアクセスしてください。
 
-## 📂 ファイル構成
+## 📁 ファイル構成
 
-- `index.html`: 超かわいいトップページだよん💖
-- `terraform/`: Terraformのコードが入ってるフォルダ
-  - `main.tf`: GCSのリソースを定義してるメインファイル
-  - `variables.tf`: プロジェクトIDとかの変数を定義してるファイル
-  - `outputs.tf`: デプロイしたサイトのURLとかを出力するためのファイル
+- `index.html`: デプロイされるシンプルなトップページ
+- `terraform/`: Terraform の構成ファイル群
+  - `main.tf`: GCS バケットや静的サイトホスティングのリソース定義
+  - `variables.tf`: プロジェクト ID やリージョンなどの変数定義
+  - `outputs.tf`: デプロイ後のサイト URL を出力
 
-## 🧹 お片付け
+## 🧹 後片付け
 
-作ったリソースを消したいときは、このコマンドを実行してね。
+不要になったリソースを削除するときは次を実行します。
 ```bash
 cd terraform
 terraform destroy
