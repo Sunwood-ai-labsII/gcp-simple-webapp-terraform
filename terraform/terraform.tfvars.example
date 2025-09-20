@@ -1,0 +1,6 @@
+# Copy this file to terraform.tfvars and update the values before running Terraform.
+# Required: The GCP project ID that hosts the resources.
+gcp_project_id = "your-gcp-project-id-here"
+
+# Optional: Override the default region (us-central1) if needed.
+gcp_region     = "us-central1"
